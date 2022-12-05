@@ -8,7 +8,6 @@ from geometry_msgs.msg import Point
 from sensor_msgs.msg import PointCloud2, PointField
 from rospy import Time
 ​
-​
 fields = [
     PointField("x", 0, PointField.FLOAT32, 1),
     PointField("y", 4, PointField.FLOAT32, 1),
@@ -19,14 +18,12 @@ fields = [
 # One float each for x,y,z and one byte each for r,g,b,a
 point_struct = struct.Struct("<fffBBBB")
 ​
-​
 def color(point: Point, t: float):
     r = 0.5 + 0.5 * point.x / 20
     g = point.y / 20
     b = 0.5 + 0.5 * math.sin(t)
     a = 0.5 + 0.5 * ((point.x / 20) * (point.y / 20))
     return int(r * 255), int(g * 255), int(b * 255), int(a * 255)
-​
 ​
 def make_point_cloud(stamp: Time):
     # Create a 20x20 grid of points that move around over time
@@ -51,7 +48,6 @@ def make_point_cloud(stamp: Time):
         row_step=len(buffer),
         data=buffer,
     )
-​
 ​
 with open(sys.argv[1], "wb") as f:
     ros_writer = Writer(f)
